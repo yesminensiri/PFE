@@ -1,0 +1,98 @@
+<div class="contact-container">
+  <div class="contact-header">
+    <h1>Contactez-nous</h1>
+    <p>Nous sommes là pour répondre à vos questions et vous aider dans votre parcours.</p>
+  </div>
+
+  <div class="contact-content">
+    <!-- Contact Info Section -->
+    <div class="contact-info">
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Adresse</h3>
+        <p>Sousse, Tunisie</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-envelope"></i>
+        <h3>Email</h3>
+        <p>contact&#64;byedge.com</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-phone"></i>
+        <h3>Téléphone</h3>
+        <p>+216 XX XXX XXX</p>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form" novalidate>
+      <div class="form-group">
+        <label for="name">Nom complet</label>
+        <input 
+          type="text"
+          id="name"
+          formControlName="name"
+          [class.is-invalid]="formControls['name'].invalid && submitted"
+          [attr.aria-invalid]="formControls['name'].invalid && submitted" />
+        <div class="error-message" *ngIf="formControls['name'].invalid && submitted">
+          {{ getErrorMessage('name') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email"
+          id="email"
+          formControlName="email"
+          [class.is-invalid]="formControls['email'].invalid && submitted"
+          [attr.aria-invalid]="formControls['email'].invalid && submitted" />
+        <div class="error-message" *ngIf="formControls['email'].invalid && submitted">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Sujet</label>
+        <input 
+          type="text"
+          id="subject"
+          formControlName="subject"
+          [class.is-invalid]="formControls['subject'].invalid && submitted"
+          [attr.aria-invalid]="formControls['subject'].invalid && submitted" />
+        <div class="error-message" *ngIf="formControls['subject'].invalid && submitted">
+          {{ getErrorMessage('subject') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea 
+          id="message"
+          formControlName="message"
+          rows="5"
+          [class.is-invalid]="formControls['message'].invalid && submitted"
+          [attr.aria-invalid]="formControls['message'].invalid && submitted"></textarea>
+        <div class="error-message" *ngIf="formControls['message'].invalid && submitted">
+          {{ getErrorMessage('message') }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Envoyer</span>
+          <span *ngIf="isLoading">Envoi en cours...</span>
+        </button>
+      </div>
+
+      <div class="form-messages">
+        <div class="success-message" *ngIf="submitSuccess">
+          ✅ Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.
+        </div>
+        <div class="error-message" *ngIf="submitError">
+          ❌ {{ submitError }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

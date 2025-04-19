@@ -1,0 +1,167 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div class="welcome-content">
+      <h1>Bienvenue, {{ studentName }} !</h1>
+      <p class="subtitle">Suivez vos candidatures et découvrez de nouvelles opportunités</p>
+    </div>
+    <div class="profile-completion">
+      <div class="completion-header">
+        <h3>Complétude du profil</h3>
+        <span class="completion-percentage">{{ studentStats.profileCompleteness }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="studentStats.profileCompleteness"></div>
+      </div>
+      <button class="edit-profile-btn" (click)="navigateTo('profile')">
+        <i class="fas fa-edit"></i>
+        Modifier mon profil
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Chargement de votre tableau de bord...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading && !errorMessage" class="dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Offres Candidaturées</h3>
+          <p class="stat-value">{{ studentStats.offersApplied }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Offres Acceptées</h3>
+          <p class="stat-value">{{ studentStats.acceptedOffers }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon warning">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-info">
+          <h3>En Attente</h3>
+          <p class="stat-value">{{ studentStats.offersApplied - studentStats.acceptedOffers - studentStats.rejectedOffers }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon favorite">
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="stat-info">
+          <h3>Favoris</h3>
+          <p class="stat-value">{{ studentStats.favoritesCount }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <div class="chart-container">
+        <h3>Statistiques des Candidatures</h3>
+        <div class="chart-wrapper">
+          <canvas #offersChart></canvas>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Répartition des Réponses</h3>
+        <div class="chart-wrapper">
+          <canvas #responsesChart></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity and Recommended Internships -->
+    <div class="content-grid">
+      <!-- Recent Activity -->
+      <div class="activity-card">
+        <div class="card-header">
+          <h3>Activité Récente</h3>
+          <button class="view-all-btn">Voir tout</button>
+        </div>
+        <div class="activity-list">
+          <div *ngFor="let activity of recentActivity" class="activity-item">
+            <div class="activity-icon">
+              <i class="fas" [ngClass]="{
+                'fa-file-alt': activity.type === 'application',
+                'fa-eye': activity.type === 'view'
+              }"></i>
+            </div>
+            <div class="activity-content">
+              <h4>{{ activity.title }}</h4>
+              <p>{{ activity.company }}</p>
+              <span class="activity-date">{{ activity.date | date:'short' }}</span>
+            </div>
+            <div class="activity-status" [ngClass]="activity.status || 'pending'">
+              {{ activity.status || 'En attente' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommended Internships -->
+      <div class="internships-card">
+        <div class="card-header">
+          <h3>Offres Recommandées</h3>
+          <button class="view-all-btn">Voir tout</button>
+        </div>
+        <div class="internships-list">
+          <div *ngFor="let internship of recommendedInternships" class="internship-item">
+            <div class="internship-header">
+              <h4>{{ internship.title }}</h4>
+              <span class="company-name">{{ internship.company }}</span>
+            </div>
+            <div class="internship-details">
+              <span class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ internship.location }}
+              </span>
+              <span class="duration">
+                <i class="fas fa-clock"></i>
+                {{ internship.duration }}
+              </span>
+            </div>
+            <div class="technologies">
+              <span *ngFor="let tech of internship.technologies" class="tech-tag">
+                {{ tech }}
+              </span>
+            </div>
+            <div class="internship-actions">
+              <button class="action-btn primary" (click)="navigateTo('offers')">
+                <i class="fas fa-paper-plane"></i>
+                Postuler
+              </button>
+              <button class="action-btn secondary" (click)="navigateTo('favorites')">
+                <i class="fas fa-heart"></i>
+                Sauvegarder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

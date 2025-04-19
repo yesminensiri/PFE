@@ -1,0 +1,27 @@
+<div class="layout">
+    <aside class="sidebar">
+      <h2 class="logo">MonEntreprise</h2>
+      <nav>
+        <a routerLink="/entreprise/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/entreprise/manage-offers" routerLinkActive="active">Gérer les Offres</a>
+        <a routerLink="/entreprise/manage-applications" routerLinkActive="active">Candidatures</a>
+        <a routerLink="/entreprise/profile" routerLinkActive="active">Profil</a>
+        <a routerLink="/entreprise/pack-selection" routerLinkActive="active">Packs</a>
+        <a routerLink="/entreprise/payment" routerLinkActive="active">Paiement</a>
+      </nav>
+    </aside>
+  
+    <main class="main-content">
+      <header class="header">
+        <div class="company-info">
+          <span class="company-name">Bienvenue, Entreprise XYZ</span>
+        </div>
+        <button class="logout-btn">Déconnexion</button>
+      </header>
+  
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  </div>
+  

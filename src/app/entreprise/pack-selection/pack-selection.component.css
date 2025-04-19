@@ -1,0 +1,146 @@
+/* Styles généraux */
+.pack-selection {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Conteneur des cartes */
+.pack-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Carte individuelle */
+.pack-card {
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.pack-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pack-card.selected {
+  border-color: #3498db;
+  background-color: #f8fafc;
+}
+
+/* En-tête de carte */
+.pack-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.pack-header h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.price {
+  font-size: 1.8rem;
+  color: #3498db;
+  font-weight: bold;
+  margin: 0.5rem 0 0;
+}
+
+.period {
+  font-size: 1rem;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+/* Détails du pack */
+.pack-details {
+  margin: 1.5rem 0;
+}
+
+.pack-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pack-details li {
+  padding: 0.5rem 0;
+  color: #34495e;
+  display: flex;
+  align-items: flex-start;
+}
+
+.feature-icon {
+  color: #2ecc71;
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+/* Bouton de sélection */
+.select-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.select-btn:hover:not([disabled]) {
+  background-color: #2980b9;
+}
+
+.select-btn[disabled] {
+  background-color: #2ecc71;
+  cursor: not-allowed;
+}
+
+/* État de chargement */
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pack-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pack-card {
+    width: 90%;
+  }
+}

@@ -1,0 +1,127 @@
+<p>career-advice works!</p>
+<div class="career-advice-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Développez Votre Carrière Tech</h1>
+        <p>Ressources expertes pour booster votre recherche d'emploi et progression professionnelle</p>
+        <div class="search-box">
+          <input type="text" placeholder="Rechercher des conseils, articles, vidéos...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Featured Content Grid -->
+    <section class="featured-section">
+      <h2>Contenu vedette</h2>
+      <div class="grid-container">
+        <div *ngFor="let article of featuredArticles" class="featured-card" (click)="navigateToArticle(article.title)">
+          <img [src]="article.image" alt="Article thumbnail">
+          <div class="card-content">
+            <span class="category-badge">{{article.category}}</span>
+            <h3>{{article.title}}</h3>
+            <p>{{article.description}}</p>
+            <div class="meta-info">
+              <span><i class="far fa-clock"></i> {{article.duration}}</span>
+              <button class="read-more">Lire l'article →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Video Tutorials -->
+    <section class="video-section">
+      <h2>Tutoriels Vidéo</h2>
+      <div class="video-grid">
+        <div *ngFor="let video of videoTutorials" class="video-card">
+          <div class="video-thumbnail">
+            <img [src]="video.thumbnail" alt="Video thumbnail">
+            <div class="play-button"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="video-info">
+            <h3>{{video.title}}</h3>
+            <div class="video-meta">
+              <span class="duration">{{video.duration}}</span>
+              <span class="category">{{video.category}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Skill Development -->
+    <section class="skill-section">
+      <h2>Développement des Compétences</h2>
+      <div class="skill-cards">
+        <div *ngFor="let skill of skillDevelopment" class="skill-card">
+          <div class="skill-header">
+            <h3>{{skill.name}}</h3>
+            <span class="progress">{{skill.progress}}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="skill.progress"></div>
+          </div>
+          <ul class="skill-steps">
+            <li *ngFor="let step of skill.steps">{{step}}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Expert Tips -->
+    <section class="expert-tips">
+      <h2>Conseils d'Experts</h2>
+      <div class="tips-container">
+        <div *ngFor="let tip of expertTips" class="tip-card">
+          <div class="quote-mark">“</div>
+          <blockquote>{{tip.quote}}</blockquote>
+          <cite>- {{tip.author}}</cite>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Resource Library -->
+    <section class="resource-section">
+      <h2>Bibliothèque de Ressources</h2>
+      <div class="filter-controls">
+        <button *ngFor="let cat of ['all', 'articles', 'videos', 'checklists']" 
+                [class.active]="selectedCategory === cat"
+                (click)="selectedCategory = cat">
+          {{cat | titlecase}}
+        </button>
+      </div>
+      
+      <div class="resource-grid">
+        <div *ngFor="let resource of resources" class="resource-card">
+          <div class="resource-icon">
+            <i [class]="'fas fa-' + (resource.type === 'video' ? 'video' : resource.type === 'article' ? 'file-alt' : 'tasks')"></i>
+          </div>
+          <div class="resource-info">
+            <h3>{{resource.title}}</h3>
+            <div class="resource-meta">
+              <span class="category">{{resource.category}}</span>
+              <span *ngIf="resource.duration" class="duration">{{resource.duration}}</span>
+            </div>
+            <p>{{resource.description}}</p>
+            <button (click)="downloadResource(resource)">
+              <i class="fas fa-download"></i> Télécharger
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+      <div class="newsletter-content">
+        <h2>Abonnez-vous à notre Newsletter Carrière</h2>
+        <p>Recevez chaque semaine des conseils exclusifs et des opportunités personnalisées</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Entrez votre email professionnel">
+          <button>S'abonner</button>
+        </div>
+      </div>
+    </section>
+  </div>

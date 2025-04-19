@@ -1,0 +1,103 @@
+<div class="register-container">
+  <div class="card">
+    <h2>Créer un compte</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Informations générales -->
+      <label>Prénom</label>
+      <input type="text" formControlName="firstName" placeholder="Prénom" required />
+
+      <label>Nom</label>
+      <input type="text" formControlName="lastName" placeholder="Nom" required />
+
+      <label>Email</label>
+      <input type="email" formControlName="email" placeholder="exemple@domaine.com" required />
+
+      <label>Mot de passe</label>
+      <input type="password" formControlName="password" placeholder="Mot de passe" required />
+
+      <!-- Rôle -->
+      <label>Rôle</label>
+      <select formControlName="role">
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+
+      <!-- Champs spécifiques à l'étudiant -->
+      <div *ngIf="role === 'student'">
+        <label>Âge</label>
+        <input type="number" formControlName="age" />
+
+        <label>Date de naissance</label>
+        <input type="date" formControlName="birthDate" />
+
+        <label>Sexe</label>
+        <select formControlName="sex">
+          <option value="F">Femme</option>
+          <option value="M">Homme</option>
+        </select>
+
+        <label>Université</label>
+        <select formControlName="university">
+          <option *ngFor="let u of tunisianUniversities" [value]="u">{{ u }}</option>
+        </select>
+
+        <label>Domaine</label>
+        <select formControlName="domain">
+          <option *ngFor="let d of computerScienceDomains" [value]="d">{{ d }}</option>
+        </select>
+
+        <label>Diplômes</label>
+        <input type="text" formControlName="diplomas" />
+
+        <label>Adresse</label>
+        <input type="text" formControlName="address" />
+
+        <label>Numéro de téléphone</label>
+        <input type="text" formControlName="phoneNumber" />
+
+        <label>Email secondaire</label>
+        <input type="email" formControlName="secondaryEmail" />
+
+        <label>CV</label>
+        <input type="file" (change)="onFileChange($event, true)" />
+        
+        <label>Photo de profil</label>
+        <input type="file" (change)="onFileChange($event, false)" />
+      </div>
+
+      <!-- Champs spécifiques à l'entreprise -->
+      <div *ngIf="role === 'company'">
+        <label>Nom de l’entreprise</label>
+        <input type="text" formControlName="companyName" />
+
+        <label>Localisation</label>
+        <select formControlName="companyLocation">
+          <option *ngFor="let g of tunisianGovernorates" [value]="g">{{ g }}</option>
+        </select>
+
+        <label>Secteur</label>
+        <select formControlName="companyDomain">
+          <option *ngFor="let s of companySectors" [value]="s">{{ s }}</option>
+        </select>
+
+        <label>Téléphone</label>
+        <input type="text" formControlName="companyPhone" />
+
+        <label>Email de l’entreprise</label>
+        <input type="email" formControlName="companyEmail" />
+
+        <label>Adresse</label>
+        <input type="text" formControlName="companyAddress" />
+      </div>
+
+      <div *ngIf="selectedPack">
+        <p>Pack sélectionné : <strong>{{ selectedPack }}</strong></p>
+      </div>
+
+      <button type="submit" [disabled]="loading">S'inscrire</button>
+      <button type="button" (click)="goToPackSelection()">Retour à la sélection du pack</button>
+
+      <p *ngIf="error" class="error">{{ error }}</p>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,265 @@
+<div class="offers-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Découvrez les meilleures offres de stage</h1>
+      <p>Trouvez l'opportunité parfaite pour lancer votre carrière professionnelle</p>
+      <div class="search-container">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Rechercher par titre, entreprise ou compétence..." [(ngModel)]="searchTerm" (input)="filterOffers()">
+        </div>
+        <button class="search-btn" (click)="filterOffers()">Rechercher</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <i class="fas fa-briefcase"></i>
+        <div class="stat-info">
+          <span class="stat-value">{{ offers.length }}</span>
+          <span class="stat-label">Offres disponibles</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-building"></i>
+        <div class="stat-info">
+          <span class="stat-value">{{ getUniqueCompanies() }}</span>
+          <span class="stat-label">Entreprises partenaires</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="stat-info">
+          <span class="stat-value">{{ getUniqueLocations() }}</span>
+          <span class="stat-label">Villes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h2>Filtres</h2>
+      <button class="btn outlined" (click)="resetFilters()">
+        <i class="fas fa-redo"></i>
+        Réinitialiser
+      </button>
+    </div>
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Type d'offre</label>
+        <select [(ngModel)]="selectedType" (change)="filterOffers()">
+          <option value="">Tous les types</option>
+          <option value="Stage">Stage</option>
+          <option value="Alternance">Alternance</option>
+          <option value="Projet">Projet</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Disponibilité</label>
+        <select [(ngModel)]="selectedAvailability" (change)="filterOffers()">
+          <option value="">Toutes</option>
+          <option value="Disponible">Disponible</option>
+          <option value="Bientôt disponible">Bientôt disponible</option>
+          <option value="Saturé">Saturé</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Domaine</label>
+        <select [(ngModel)]="selectedDomain" (change)="filterOffers()">
+          <option value="">Tous les domaines</option>
+          <option *ngFor="let domain of getUniqueDomains()" [value]="domain">{{ domain }}</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Localisation</label>
+        <select [(ngModel)]="selectedLocation" (change)="filterOffers()">
+          <option value="">Toutes les localisations</option>
+          <option *ngFor="let location of getUniqueLocations()" [value]="location">{{ location }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Offers Section -->
+  <div class="featured-section" *ngIf="getFeaturedOffers().length > 0">
+    <h2>Offres en vedette</h2>
+    <div class="featured-offers">
+      <div class="featured-card" *ngFor="let offer of getFeaturedOffers()">
+        <div class="featured-badge">
+          <i class="fas fa-star"></i> En vedette
+        </div>
+        <div class="featured-header">
+          <img [src]="offer.companyLogo || 'assets/images/default-company.png'" [alt]="offer.companyName" class="company-logo">
+          <div class="featured-info">
+            <h3>{{ offer.title }}</h3>
+            <p class="company-name">{{ offer.companyName }}</p>
+          </div>
+        </div>
+        <div class="featured-body">
+          <p class="offer-description">{{ offer.description | slice:0:120 }}...</p>
+          <div class="offer-details">
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              {{ offer.location }}
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-clock"></i>
+              {{ offer.type === 'Stage' ? '3-6 mois' : offer.type === 'Alternance' ? '1-2 ans' : '6 mois' }}
+            </div>
+          </div>
+          <div class="skills-container">
+            <span class="skill-tag" *ngFor="let skill of offer.skills.slice(0, 3)">{{ skill }}</span>
+            <span class="skill-tag more" *ngIf="offer.skills.length > 3">+{{ offer.skills.length - 3 }}</span>
+          </div>
+        </div>
+        <div class="featured-footer">
+          <span class="offer-status" [ngClass]="getAvailabilityClass(offer.availability)">
+            {{ offer.availability }}
+          </span>
+          <button class="btn primary" (click)="viewOfferDetails(offer.id)">
+            <i class="fas fa-eye"></i>
+            Voir les détails
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All Offers Section -->
+  <div class="offers-section">
+    <div class="section-header">
+      <h2>Toutes les offres</h2>
+      <div class="view-options">
+        <button class="view-btn active" (click)="setViewMode('grid')">
+          <i class="fas fa-th-large"></i>
+        </button>
+        <button class="view-btn" (click)="setViewMode('list')">
+          <i class="fas fa-list"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="offers-grid" [ngClass]="{'list-view': viewMode === 'list'}" *ngIf="!isLoading && filteredOffers.length > 0">
+      <div class="offer-card" *ngFor="let offer of filteredOffers">
+        <div class="offer-header">
+          <span class="offer-status" [ngClass]="getAvailabilityClass(offer.availability)">
+            {{ offer.availability }}
+          </span>
+          <div class="company-info">
+            <img [src]="offer.companyLogo || 'assets/images/default-company.png'" [alt]="offer.companyName" class="company-logo">
+            <div class="company-details">
+              <h3>{{ offer.title }}</h3>
+              <p class="company-name">{{ offer.companyName }}</p>
+            </div>
+          </div>
+          <button class="favorite-btn" [ngClass]="{'active': offer.isFavorite}" (click)="toggleFavorite(offer)">
+            <i class="fas" [ngClass]="{'fa-heart': offer.isFavorite, 'fa-heart-o': !offer.isFavorite}"></i>
+          </button>
+        </div>
+
+        <div class="offer-body">
+          <p class="offer-description">{{ offer.description }}</p>
+          <div class="offer-details">
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              {{ offer.location }}
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-clock"></i>
+              {{ offer.type === 'Stage' ? '3-6 mois' : offer.type === 'Alternance' ? '1-2 ans' : '6 mois' }}
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-briefcase"></i>
+              {{ offer.type }}
+            </div>
+          </div>
+          <div class="skills-container">
+            <span class="skill-tag" *ngFor="let skill of offer.skills.slice(0, 3)">{{ skill }}</span>
+            <span class="skill-tag more" *ngIf="offer.skills.length > 3">+{{ offer.skills.length - 3 }}</span>
+          </div>
+        </div>
+
+        <div class="offer-footer">
+          <button class="btn primary" (click)="viewOfferDetails(offer.id)">
+            <i class="fas fa-eye"></i>
+            Voir les détails
+          </button>
+          <button class="btn outlined" (click)="toggleFavorite(offer)">
+            <i class="fas" [ngClass]="{'fa-heart': offer.isFavorite, 'fa-heart-o': !offer.isFavorite}"></i>
+            {{ offer.isFavorite ? 'Retirer' : 'Ajouter' }}
+          </button>
+        </div>
+
+        <div class="offer-meta">
+          <div class="meta-item">
+            <i class="fas fa-calendar"></i>
+            Publié le {{ offer.date | date:'dd/MM/yyyy' }}
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-tag"></i>
+            {{ offer.domain }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!isLoading && filteredOffers.length === 0">
+      <div class="empty-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h2>Aucune offre trouvée</h2>
+      <p>Aucune offre ne correspond à vos critères de recherche. Essayez de modifier vos filtres.</p>
+      <button class="btn primary" (click)="resetFilters()">
+        <i class="fas fa-redo"></i>
+        Réinitialiser les filtres
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Chargement des offres...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="errorMessage">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <h2>Une erreur est survenue</h2>
+      <p>{{ errorMessage }}</p>
+      <button class="btn primary" (click)="loadOffers()">
+        <i class="fas fa-redo"></i>
+        Réessayer
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="!isLoading && filteredOffers.length > 0">
+      <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="pagination-info">
+        Page {{ currentPage }} sur {{ totalPages }}
+      </div>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Newsletter Section -->
+  <div class="newsletter-section">
+    <div class="newsletter-content">
+      <h2>Restez informé des nouvelles offres</h2>
+      <p>Inscrivez-vous à notre newsletter pour recevoir les dernières offres de stage et d'alternance directement dans votre boîte mail.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Votre adresse email" class="newsletter-input">
+        <button class="btn primary">S'inscrire</button>
+      </div>
+    </div>
+  </div>
+</div>

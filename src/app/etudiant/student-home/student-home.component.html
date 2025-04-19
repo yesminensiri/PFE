@@ -1,0 +1,107 @@
+<div class="student-dashboard">
+  <div class="welcome-section">
+    <h1>Bienvenue, {{ studentName }}!</h1>
+    <p class="subtitle">Votre tableau de bord personnel pour gérer votre recherche de stage</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Quick Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ applicationsCount }}</h3>
+          <p>Candidatures</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ favoritesCount }}</h3>
+          <p>Favoris</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ messagesCount }}</h3>
+          <p>Messages</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Applications Section -->
+    <div class="applications-section">
+      <h2>Vos Candidatures Récentes</h2>
+      <div class="applications-list">
+        <div *ngFor="let application of recentApplications" class="application-card">
+          <div class="application-header">
+            <h3>{{ application.position }}</h3>
+            <span class="status-badge" [ngClass]="application.status">{{ application.status }}</span>
+          </div>
+          <p class="company-name">{{ application.company }}</p>
+          <div class="application-details">
+            <span><i class="fas fa-calendar"></i> {{ application.date }}</span>
+            <span><i class="fas fa-map-marker-alt"></i> {{ application.location }}</span>
+          </div>
+          <button class="view-details-btn" (click)="viewApplicationDetails(application.id)">Voir les détails</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommended Offers Section -->
+    <div class="recommended-section">
+      <h2>Offres Recommandées</h2>
+      <div class="offers-grid">
+        <div *ngFor="let offer of recommendedOffers" class="offer-card">
+          <div class="offer-header">
+            <h3>{{ offer.title }}</h3>
+            <span class="offer-type">{{ offer.type }}</span>
+          </div>
+          <p class="company-name">{{ offer.company }}</p>
+          <div class="offer-details">
+            <span><i class="fas fa-map-marker-alt"></i> {{ offer.location }}</span>
+            <span><i class="fas fa-clock"></i> {{ offer.duration }}</span>
+          </div>
+          <div class="offer-actions">
+            <button class="apply-btn" (click)="applyToOffer(offer.id)">Postuler</button>
+            <button class="favorite-btn" (click)="toggleFavorite(offer.id)">
+              <i class="fas" [ngClass]="{'fa-heart': offer.isFavorite, 'fa-heart-o': !offer.isFavorite}"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Resources Section -->
+    <div class="resources-section">
+      <h2>Ressources de Carrière</h2>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <i class="fas fa-file-text"></i>
+          <h3>Guide CV</h3>
+          <p>Apprenez à créer un CV qui attire l'attention</p>
+          <button class="resource-btn">Consulter</button>
+        </div>
+        <div class="resource-card">
+          <i class="fas fa-video"></i>
+          <h3>Préparation Entretien</h3>
+          <p>Conseils pour réussir vos entretiens</p>
+          <button class="resource-btn">Consulter</button>
+        </div>
+        <div class="resource-card">
+          <i class="fas fa-users"></i>
+          <h3>Réseautage</h3>
+          <p>Comment développer votre réseau professionnel</p>
+          <button class="resource-btn">Consulter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

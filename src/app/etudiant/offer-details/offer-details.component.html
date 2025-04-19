@@ -1,0 +1,46 @@
+<div class="offer-details">
+    <h1>{{ offer?.title }}</h1>
+  
+    <p><strong>Entreprise:</strong> {{ offer?.companyName }}</p>
+    <p><strong>Lieu:</strong> {{ offer?.location }}</p>
+    <p><strong>Durée:</strong> {{ offer?.duration }}</p>
+    <p><strong>Type:</strong> {{ offer?.type }}</p>
+    <p><strong>Domaine:</strong> {{ offer?.domain }}</p>
+  
+    <p>
+      <strong>Disponibilité:</strong>
+      <span [ngClass]="getAvailabilityClass(offer?.availability)">
+        {{ offer?.availability }}
+      </span>
+    </p>
+  
+    <p><strong>Description:</strong> {{ offer?.description }}</p>
+  
+    <h3>Compétences requises:</h3>
+    <ul>
+      <li *ngFor="let skill of offer?.skills">{{ skill }}</li>
+    </ul>
+  
+    <h3>Documents requis:</h3>
+    <ul>
+      <li *ngFor="let doc of offer?.requiredDocuments">{{ doc }}</li>
+    </ul>
+  
+    <h3>Témoignages:</h3>
+    <div *ngFor="let testimony of offer?.testimonials">
+      <p><strong>{{ testimony.author }}:</strong> {{ testimony.comment }}</p>
+    </div>
+    <p><strong>Durée:</strong> {{ offer?.duration || 'Non spécifiée' }}</p>
+    <p><strong>Date:</strong> {{ offer?.date | date:'dd/MM/yyyy' }}</p>
+    <div class="add-comment">
+      <textarea placeholder="Laissez votre avis ou une question"></textarea>
+      <button class="btn secondary">Envoyer</button>
+    </div>
+    <div class="buttons">
+        <button class="btn secondary">Postuler</button>
+        <button class="btn outlined">Partager</button>
+        <button class="btn outlined">Enregistrer</button>
+      </div>
+      
+  </div>
+  

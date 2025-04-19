@@ -1,0 +1,252 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-cover">
+      <div class="profile-avatar">
+        <img [src]="profileImage || 'assets/images/default-avatar.png'" alt="Profile Image">
+        <button class="change-avatar-btn" (click)="onAvatarChange()">
+          <i class="fas fa-camera"></i>
+        </button>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h1>{{ personalInfoForm.get('fullName')?.value || 'Votre Nom' }}</h1>
+      <p class="profile-title">{{ personalInfoForm.get('fieldOfStudy')?.value || 'Domaine d\'étude' }}</p>
+      <p class="profile-university">{{ personalInfoForm.get('university')?.value || 'Université' }}</p>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-sidebar">
+      <div class="completion-card">
+        <h3>Complétude du profil</h3>
+        <div class="completion-circle">
+          <div class="completion-progress" [style.transform]="'rotate(' + (profileCompleteness * 3.6) + 'deg)'"></div>
+          <div class="completion-value">{{ profileCompleteness }}%</div>
+        </div>
+        <div class="completion-steps">
+          <div class="completion-step" [class.completed]="currentStep >= 1">
+            <i class="fas fa-user"></i>
+            <span>Informations personnelles</span>
+          </div>
+          <div class="completion-step" [class.completed]="currentStep >= 2">
+            <i class="fas fa-file-alt"></i>
+            <span>CV et documents</span>
+          </div>
+          <div class="completion-step" [class.completed]="currentStep >= 3">
+            <i class="fas fa-cog"></i>
+            <span>Préférences</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="action-btn primary" (click)="submitProfile()">
+          <i class="fas fa-save"></i>
+          Enregistrer les modifications
+        </button>
+        <button class="action-btn secondary" (click)="navigateToDashboard()">
+          <i class="fas fa-arrow-left"></i>
+          Retour au tableau de bord
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-main">
+      <div class="profile-steps">
+        <div class="step-indicators">
+          <div class="step-indicator" [class.active]="currentStep === 1" (click)="setStep(1)">
+            <div class="step-number">1</div>
+            <div class="step-label">Informations</div>
+          </div>
+          <div class="step-connector" [class.active]="currentStep >= 2"></div>
+          <div class="step-indicator" [class.active]="currentStep === 2" (click)="setStep(2)">
+            <div class="step-number">2</div>
+            <div class="step-label">Documents</div>
+          </div>
+          <div class="step-connector" [class.active]="currentStep >= 3"></div>
+          <div class="step-indicator" [class.active]="currentStep === 3" (click)="setStep(3)">
+            <div class="step-number">3</div>
+            <div class="step-label">Préférences</div>
+          </div>
+        </div>
+
+        <form [formGroup]="personalInfoForm" class="profile-form">
+          <!-- Étape 1: Informations Personnelles -->
+          <div class="form-step" [class.active]="currentStep === 1">
+            <h2>Informations personnelles</h2>
+            <p class="step-description">Renseignez vos informations personnelles pour compléter votre profil.</p>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="fullName">Nom complet</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-user"></i>
+                  <input type="text" id="fullName" formControlName="fullName" placeholder="Entrez votre nom complet" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email" id="email" formControlName="email" placeholder="Entrez votre email" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-phone"></i>
+                  <input type="text" id="phone" formControlName="phone" placeholder="Entrez votre numéro de téléphone" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="university">Université</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-university"></i>
+                  <input type="text" id="university" formControlName="university" placeholder="Nom de l'université" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="fieldOfStudy">Domaine d'étude</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                  <input type="text" id="fieldOfStudy" formControlName="fieldOfStudy" placeholder="Ex: Informatique, Gestion..." />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="graduationYear">Année de diplôme</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                  <input type="text" id="graduationYear" formControlName="graduationYear" placeholder="Ex: 2025" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="bio">Biographie</label>
+              <textarea id="bio" formControlName="bio" placeholder="Parlez un peu de vous..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="skip-btn" (click)="skipStep()">Ignorer cette étape</button>
+              <button type="button" class="next-btn" (click)="setStep(currentStep + 1)">Suivant</button>
+            </div>
+          </div>
+
+          <!-- Étape 2: CV et pièces jointes -->
+          <div class="form-step" [class.active]="currentStep === 2">
+            <h2>CV et pièces jointes</h2>
+            <p class="step-description">Téléchargez votre CV et d'autres documents pertinents pour votre profil.</p>
+
+            <div class="upload-section">
+              <div class="upload-card">
+                <div class="upload-icon">
+                  <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>CV</h3>
+                <p>Téléchargez votre CV au format PDF, DOC ou DOCX</p>
+                <div class="file-upload">
+                  <input type="file" id="cv" (change)="onFileChange($event, 'cv')" accept=".pdf,.doc,.docx" />
+                  <label for="cv" class="upload-btn">
+                    <i class="fas fa-upload"></i>
+                    Parcourir
+                  </label>
+                </div>
+                <div class="file-info" *ngIf="personalInfoForm.get('cv')?.value">
+                  <i class="fas fa-check-circle"></i>
+                  <span>CV téléchargé</span>
+                </div>
+              </div>
+
+              <div class="upload-card">
+                <div class="upload-icon">
+                  <i class="fas fa-file-upload"></i>
+                </div>
+                <h3>Pièces jointes</h3>
+                <p>Ajoutez des documents supplémentaires (lettres de recommandation, certificats...)</p>
+                <div class="file-upload">
+                  <input type="file" id="attachments" (change)="onFileChange($event, 'attachments')" accept="image/*,.pdf,.doc,.docx" multiple />
+                  <label for="attachments" class="upload-btn">
+                    <i class="fas fa-upload"></i>
+                    Parcourir
+                  </label>
+                </div>
+                <div class="file-info" *ngIf="personalInfoForm.get('attachments')?.value">
+                  <i class="fas fa-check-circle"></i>
+                  <span>{{ getAttachmentsCount() }} document(s) téléchargé(s)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="skip-btn" (click)="skipStep()">Ignorer cette étape</button>
+              <button type="button" class="next-btn" (click)="setStep(currentStep + 1)">Suivant</button>
+            </div>
+          </div>
+
+          <!-- Étape 3: Préférences -->
+          <div class="form-step" [class.active]="currentStep === 3">
+            <h2>Préférences et autres informations</h2>
+            <p class="step-description">Personnalisez vos préférences de stage et ajoutez des informations complémentaires.</p>
+
+            <div class="form-group full-width">
+              <label for="preferences">Préférences de travail</label>
+              <textarea id="preferences" formControlName="preferences" placeholder="Ex: Télétravail, horaires flexibles..."></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="skills">Compétences</label>
+              <div class="skills-input">
+                <div class="skills-container">
+                  <div class="skill-tag" *ngFor="let skill of skillsList">
+                    {{ skill }}
+                    <i class="fas fa-times" (click)="removeSkill(skill)"></i>
+                  </div>
+                </div>
+                <div class="skill-input">
+                  <input type="text" [(ngModel)]="newSkill" [ngModelOptions]="{standalone: true}" placeholder="Ajouter une compétence" (keyup.enter)="addSkill()" />
+                  <button type="button" (click)="addSkill()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="languages">Langues parlées</label>
+              <div class="languages-input">
+                <div class="language-tag" *ngFor="let language of languagesList">
+                  {{ language }}
+                  <i class="fas fa-times" (click)="removeLanguage(language)"></i>
+                </div>
+                <div class="language-input">
+                  <input type="text" [(ngModel)]="newLanguage" [ngModelOptions]="{standalone: true}" placeholder="Ajouter une langue" (keyup.enter)="addLanguage()" />
+                  <button type="button" (click)="addLanguage()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="availability">Disponibilité</label>
+              <div class="input-with-icon">
+                <i class="fas fa-calendar-check"></i>
+                <input type="text" id="availability" formControlName="availability" placeholder="Ex: Immédiate, Juillet 2025..." />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="skip-btn" (click)="skipStep()">Ignorer cette étape</button>
+              <button type="button" class="submit-btn" (click)="submitProfile()">Valider</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

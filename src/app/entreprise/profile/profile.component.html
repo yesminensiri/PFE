@@ -1,0 +1,32 @@
+<div class="profile-container">
+  <h2>Mon Profil</h2>
+
+  <div *ngIf="!isEditing" class="profile-view">
+    <p><strong>Nom de l’entreprise :</strong> {{ profile.companyName }}</p>
+    <p><strong>Email :</strong> {{ profile.email }}</p>
+    <p><strong>Téléphone :</strong> {{ profile.phone }}</p>
+    <p><strong>Description :</strong> {{ profile.description }}</p>
+    <p><strong>Adresse :</strong> {{ profile.address }}</p>
+    <p><strong>Secteur :</strong> {{ profile.sector }}</p>
+    <p><strong>Contact référent :</strong> {{ profile.contactPerson }}</p>
+    <p><strong>Lien vers le PFE Book :</strong> <a [href]="profile.pfeBook" target="_blank">{{ profile.pfeBook }}</a></p>
+    <button (click)="startEdit()">📝 Modifier</button>
+  </div>
+
+  <form *ngIf="isEditing" (ngSubmit)="saveProfile()" class="profile-form">
+    <input type="text" [(ngModel)]="editedProfile.companyName" name="companyName" placeholder="Nom de l’entreprise" required />
+    <input type="email" [(ngModel)]="editedProfile.email" name="email" placeholder="Email" required />
+    <input type="text" [(ngModel)]="editedProfile.phone" name="phone" placeholder="Téléphone" required />
+    <textarea [(ngModel)]="editedProfile.description" name="description" placeholder="Description"></textarea>
+    <input type="text" [(ngModel)]="editedProfile.address" name="address" placeholder="Adresse" />
+    <input type="text" [(ngModel)]="editedProfile.sector" name="sector" placeholder="Secteur d'activité" />
+    <input type="text" [(ngModel)]="editedProfile.contactPerson" name="contactPerson" placeholder="Contact référent" />
+    <input type="url" [(ngModel)]="editedProfile.pfeBook" name="pfeBook" placeholder="Lien vers le PFE Book" />
+    <input type="password" [(ngModel)]="editedProfile.password" name="password" placeholder="Nouveau mot de passe (facultatif)" />
+
+    <div class="btn-group">
+      <button type="submit">💾 Sauvegarder</button>
+      <button type="button" class="cancel" (click)="cancelEdit()">Annuler</button>
+    </div>
+  </form>
+</div>

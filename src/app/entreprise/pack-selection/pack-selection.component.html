@@ -1,0 +1,39 @@
+<div class="pack-selection">
+  <h2>Choisissez votre Pack</h2>
+  <p class="subtitle">Sélectionnez le pack qui correspond le mieux à vos besoins de recrutement.</p>
+
+  <div *ngIf="packs && packs.length > 0; else loading" class="pack-cards">
+    <div *ngFor="let pack of packs" 
+         class="pack-card" 
+         [class.selected]="selectedPack === pack.id" 
+         (click)="onSelectPack(pack)">
+      <div class="pack-header">
+        <h3>{{ pack.nom }}</h3>
+        <p class="description">{{ pack.description }}</p>
+        <p class="price">
+          {{ pack.prix | currency:'EUR':'symbol':'1.2-2':'fr' }}
+          <span class="period">/{{ pack.duree }} mois</span>
+        </p>
+      </div>
+      
+      <div class="pack-details">
+        <ul>
+          <li *ngFor="let feature of pack.features">
+            <i class="feature-icon">✓</i> {{ feature }}
+          </li>
+        </ul>
+      </div>
+
+      <button class="select-btn"
+              [disabled]="selectedPack === pack.id">
+        {{ selectedPack === pack.id ? 'Sélectionné' : 'Choisir ce pack' }}
+      </button>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-message">
+      <p>Chargement des packs...</p>
+    </div>
+  </ng-template>
+</div>

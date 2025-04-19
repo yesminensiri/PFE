@@ -1,0 +1,48 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a class="navbar-brand" (click)="goHome()">
+      <img src="/assets/images/byedge.jpg" alt="Edge World Wide" class="navbar-logo" />
+    </a>
+
+    <div class="navbar-menu">
+      <a routerLink="/" class="navbar-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/about" class="navbar-item" routerLinkActive="active">About</a>
+      <a routerLink="/contact" class="navbar-item" routerLinkActive="active">Contact</a>
+    </div>
+
+    <div class="navbar-actions">
+      <!-- Not logged in -->
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="navbar-button secondary">
+          <i class="fas fa-sign-in-alt"></i>
+          Login
+        </a>
+        <a routerLink="/register" class="navbar-button primary">
+          <i class="fas fa-user-plus"></i>
+          Register
+        </a>
+      </ng-container>
+
+      <!-- Logged in -->
+      <ng-container *ngIf="isLoggedIn">
+        <a [routerLink]="['/' + role + '/dashboard']" class="navbar-button secondary">
+          <i class="fas fa-tachometer-alt"></i>
+          Dashboard
+        </a>
+        <a [routerLink]="['/' + role + '/profile']" class="navbar-button secondary">
+          <i class="fas fa-user"></i>
+          Profile
+        </a>
+        <button (click)="logout()" class="navbar-button primary">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button class="navbar-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>

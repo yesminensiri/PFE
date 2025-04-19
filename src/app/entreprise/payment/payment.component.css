@@ -1,0 +1,167 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+}
+  
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0056b3;
+    font-size: 24px;
+}
+  
+/* Payment Container */
+.payment-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+}
+  
+.selected-pack-details {
+    margin-bottom: 30px;
+}
+  
+.selected-pack-details h3 {
+    font-size: 26px; /* Augmenter la taille du titre du pack */
+    color: #333;
+    margin-bottom: 15px; /* Espacement entre le titre et les détails */
+}
+  
+.selected-pack-details p {
+    font-size: 18px; /* Agrandir la taille de la police des détails */
+    margin: 10px 0; /* Espacement entre chaque détail */
+}
+  
+.selected-pack-details ul {
+    margin-top: 15px;
+}
+  
+.selected-pack-details ul li {
+    font-size: 16px; /* Agrandir la taille des avantages */
+    padding-left: 25px; /* Espace supplémentaire pour les puces */
+    list-style-type: disc;
+    margin-bottom: 10px; /* Espacement entre chaque avantage */
+}
+  
+h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+  
+/* Payment Method Selection */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    transition: border-color 0.3s ease;
+}
+  
+select:focus {
+    border-color: #0056b3;
+}
+  
+/* Payment Method Form */
+.payment-method-form {
+    margin-top: 20px;
+}
+  
+.payment-method-form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+}
+  
+.payment-method-form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+  
+.payment-method-form input:focus {
+    border-color: #0056b3;
+}
+  
+.payment-method-form input[type="password"] {
+    letter-spacing: 2px;
+}
+  
+/* Button Styles */
+button {
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+  
+button:hover {
+    background-color: #004085;
+}
+  
+button:active {
+    background-color: #003366;
+}
+  
+/* Bank Transfer Info */
+.bank-transfer-details p {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+  
+/* Responsive Design */
+@media (max-width: 768px) {
+    .payment-container {
+        padding: 20px;
+        margin: 20px;
+    }
+  
+    h2 {
+        font-size: 20px;
+    }
+  
+    .selected-pack-details h3 {
+        font-size: 22px; /* Ajuster la taille du titre sur mobile */
+        color: #333;
+        margin-bottom: 15px;
+    }
+  
+    .selected-pack-details p {
+        font-size: 16px; /* Ajuster la taille des détails sur mobile */
+    }
+  
+    .payment-method-form input,
+    .payment-method-form select {
+        font-size: 14px; /* Réduire la taille des champs de saisie sur mobile */
+    }
+  
+    button {
+        font-size: 16px; /* Ajuster la taille du bouton sur mobile */
+    }
+}

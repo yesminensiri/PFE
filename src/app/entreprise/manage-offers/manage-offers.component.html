@@ -1,0 +1,110 @@
+<div class="manage-offers">
+  <h2>Gestion des Offres</h2>
+
+  <form (ngSubmit)="saveOffer()" class="offer-form">
+    <h3>{{ isEditing ? 'Modifier l\'offre' : 'Ajouter une nouvelle offre' }}</h3>
+    
+    <div class="form-group">
+      <label>Titre du poste*</label>
+      <input type="text" [(ngModel)]="offerForm.title" name="title" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Description*</label>
+      <textarea [(ngModel)]="offerForm.description" name="description" required></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>Compétences requises</label>
+      <div class="skills-input">
+        <input type="text" [(ngModel)]="skillInput" name="skillInput" 
+               (keyup.enter)="addSkill()" placeholder="Ajouter une compétence">
+        <button type="button" (click)="addSkill()">+</button>
+      </div>
+      <div class="skills-list">
+        <span *ngFor="let skill of offerForm.requiredSkills" class="skill-tag">
+          {{ skill }} <span (click)="removeSkill(skill)">×</span>
+        </span>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Durée*</label>
+        <input type="text" [(ngModel)]="offerForm.duration" name="duration" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Disponibilité*</label>
+        <input type="date" [(ngModel)]="offerForm.availability" name="availability" required>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Domaine*</label>
+        <input type="text" [(ngModel)]="offerForm.domain" name="domain" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Lieu*</label>
+        <input type="text" [(ngModel)]="offerForm.location" name="location" required>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label>Type*</label>
+      <select [(ngModel)]="offerForm.type" name="type" required>
+        <option value="Stage">Stage</option>
+        <option value="CDI">CDI</option>
+        <option value="CDD">CDD</option>
+        <option value="Freelance">Freelance</option>
+      </select>
+    </div>
+    
+    <div class="btn-group">
+      <button type="submit" class="btn-primary">
+        {{ isEditing ? 'Enregistrer' : 'Ajouter' }}
+      </button>
+      <button type="button" class="btn-secondary" *ngIf="isEditing" (click)="cancelEdit()">
+        Annuler
+      </button>
+    </div>
+  </form>
+
+  <table class="offers-table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Compétences</th>
+        <th>Durée</th>
+        <th>Disponibilité</th>
+        <th>Domaine</th>
+        <th>Lieu</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let offer of offers">
+        <td>{{ offer.title }}</td>
+        <td>{{ offer.description }}</td>
+        <td>
+          <div class="skills-cell">
+            <span *ngFor="let skill of offer.requiredSkills" class="skill-tag">{{ skill }}</span>
+          </div>
+        </td>
+        <td>{{ offer.duration }}</td>
+        <td>{{ offer.availability | date:'dd/MM/yyyy' }}</td>
+        <td>{{ offer.domain }}</td>
+        <td>{{ offer.location }}</td>
+        <td>{{ offer.type }}</td>
+        <td class="actions">
+          <button (click)="editOffer(offer)" class="btn-edit">📝</button>
+          <button (click)="deleteOffer(offer.id)" class="btn-delete">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

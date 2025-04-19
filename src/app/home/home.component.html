@@ -1,0 +1,129 @@
+<div class="home">
+  <h1>Bienvenue sur la plateforme de recrutement</h1>
+  <p>"Étudiants, startups, entreprises ou chercheurs d’emploi : votre avenir commence ici."</p>
+<p>"Une plateforme, mille opportunités : trouvez ce qui vous correspond, quel que soit votre profil."</p>
+  <!-- Si l'utilisateur est étudiant -->
+  <div *ngIf="userRole === 'student'">
+    <div class="student-section">
+      <h2>Pour les Étudiants</h2>
+      <p>"Trouvez des stages PFE, d’été, des opportunités en alternance et des emplois dans des entreprises innovantes. Donnez un coup d’accélérateur à votre carrière avec des conseils pratiques et des offres exclusives !"</p>
+<p>Accédez à des stages PFE, stages d’été, contrats en alternance et emplois dans des entreprises innovantes. Boostez votre carrière avec des conseils pratiques et des offres exclusives !</p>
+      <!-- Section offres de stage -->
+      <div class="offers-preview">
+        <h3>Offres de Stage Récentes</h3>
+        <div class="offers-container">
+          <div *ngFor="let offer of internshipOffers" class="offer-card">
+            <h4>{{ offer.title }}</h4>
+            <p><strong>Entreprise:</strong> {{ offer.company }}</p>
+            <p><strong>Lieu:</strong> {{ offer.location }}</p>
+            <p><strong>Description:</strong> {{ offer.description }}</p>
+            <p><strong>Durée:</strong> {{ offer.duration }}</p>
+            <button (click)="navigateToOffer('internship', offer.id)">Postuler</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section conseils de carrière -->
+      <div class="career-advice">
+        <img src="" alt="Logo" style="max-width: 100%; height: auto;" />
+
+        <h3>Conseils de Carrière pour les Étudiants</h3>
+        <p>
+          Notre <strong>programme d'accompagnement pédagogique</strong> offre aux étudiants en recherche d'emploi ou d'alternance des ressources clés pour :
+          <ul class="advice-list">
+            <li><strong>Maîtriser</strong> les techniques d'entretien (comportementales, techniques et vidéo)</li>
+            <li><strong>Identifier</strong> les opportunités correspondant à votre parcours et aspirations</li>
+            <li><strong>Structurer</strong> un CV impactant mettant en valeur vos atouts professionnels</li>
+            <li><strong>Développer</strong> une stratégie de recherche efficace et un réseau professionnel</li>
+          </ul>
+          Ces modules, élaborés par des experts RH, couvrent l'ensemble du processus de recrutement.
+        <div class="button-container"></div>
+        <button (click)="navigateToCareerAdvice()" class="cta-button">
+          Accéder aux ressources professionnelles
+        </button>     </div>
+    </div>
+  </div>
+
+  <!-- Si l'utilisateur est une entreprise -->
+  <div *ngIf="userRole === 'company'">
+    <div class="company-section">
+      <h2>Pour les Entreprises</h2>
+      <p>Publiez vos offres d'emploi et trouvez les meilleurs talents pour vos besoins. Attirez des stagiaires motivés ou des candidats qualifiés pour faire avancer votre entreprise !</p>
+
+      <!-- Section offres d'emploi -->
+      <div class="offers-preview">
+        <h3>Offres de Travail Récentes</h3>
+        <div class="offers-container">
+          <div *ngFor="let offer of jobOffers" class="offer-card">
+            <h4>{{ offer.title }}</h4>
+            <p><strong>Entreprise:</strong> {{ offer.company }}</p>
+            <p><strong>Lieu:</strong> {{ offer.location }}</p>
+            <p><strong>Description:</strong> {{ offer.description }}</p>
+            <p><strong>Salaire:</strong> {{ offer.salary }}</p>
+            <button (click)="navigateToOffer('job', offer.id)">Postuler</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section publication d'offres améliorée -->
+      <div class="publish-offer enhanced-section">
+        <h3>Publier une Offre</h3>
+        <p>Gagnez en visibilité auprès de milliers d’étudiants et de chercheurs d’emploi ! Utilisez notre outil intuitif pour publier vos offres de stages ou d’emplois, en quelques clics.</p>
+        <button class="publish-button" (click)="navigateToPublishOffer()">
+          <i class="fa fa-plus-circle"></i> Créer une Nouvelle Offre
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section générale pour tous -->
+  <div class="general-section">
+    <h2>Pourquoi Choisir Notre Plateforme ?</h2>
+    <p>Recrutement Simplifié : Un processus simple et rapide pour postuler ou publier des offres.<br>
+    Réseautage Professionnel : Connectez-vous avec des recruteurs, des entreprises et d'autres étudiants pour élargir vos opportunités.</p>
+
+    <p>Que vous soyez un étudiant cherchant à lancer votre carrière , une entreprise cherchant a integrer ses etudiants au marché de travail, un organisme de fond international cherchant des entreprises des formateurs pour lever de fond. </p>
+
+    <ul>
+      <li><strong>Étudiants:</strong> Offres de stages (été,pfe), recrutement et alternance.</li>
+      <li><strong>Startups & Entreprises:</strong> Offres d’emplois et de stages pour tous les niveaux.</li>
+      <li><strong>Chercheurs d’emploi :</strong> Plateforme dynamique avec alertes personnalisées et accompagnement.</li>
+      <li><strong>Universités: </strong> Suivi du taux d’embauche, analyse de l’adéquation entre formations et marché du travail, partenariat pour sponsoring avec des professionnels et organismes internationaux.</li>
+    </ul>
+  </div>
+
+  <!-- Section de témoignages -->
+  <div class="testimonials-section">
+    <h2>Témoignages</h2>
+    <p>Découvrez les histoires de réussite de nos utilisateurs.</p>
+    <div class="testimonials">
+      <div *ngFor="let testimonial of testimonials" class="testimonial-card">
+        <p><strong>{{ testimonial.name }}</strong> - {{ testimonial.role }}</p>
+        <p>{{ testimonial.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section FAQ -->
+  <div class="faq-section">
+    <h2>Questions Fréquentes</h2>
+    <p>Trouvez les réponses aux questions les plus fréquemment posées par les étudiants et les entreprises.</p>
+    <div class="faq-container">
+      <div *ngFor="let faq of faqs" class="faq-item">
+        <h4>{{ faq.question }}</h4>
+        <p>{{ faq.answer }}</p>
+      </div>
+
+      <!-- Ajout des nouvelles questions -->
+      <div class="faq-item">
+        <h4>Comment choisir le type d’abonnement adapté à mon entreprise ?</h4>
+        <p>Consultez notre page "Abonnements" pour comparer les différentes formules selon vos besoins de recrutement.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Quels sont les avantages des packs Premium ?</h4>
+        <p>Visibilité renforcée, nombre illimité d'offres, et accompagnement personnalisé dans vos campagnes de recrutement.</p>
+      </div>
+    </div>
+  </div>
+</div>

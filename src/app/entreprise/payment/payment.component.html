@@ -1,0 +1,65 @@
+<div class="payment-container">
+    <h2>Paiement pour le pack sélectionné</h2>
+  
+    <div *ngIf="selectedPack" class="selected-pack-details">
+      <h3>{{ selectedPack.name }}</h3>
+      <p><strong>Prix:</strong> {{ selectedPack.price | currency:'EUR' }}</p>
+      <p><strong>Durée:</strong> {{ selectedPack.period }} mois</p>
+      <h4>Avantages:</h4>
+      <ul>
+        <li *ngFor="let feature of selectedPack.features">{{ feature }}</li>
+      </ul>
+  
+      <h4>Méthode de paiement:</h4>
+      <select [(ngModel)]="selectedPaymentMethod">
+        <option value="creditCard">Carte Bancaire</option>
+        <option value="edinar">Carte Edinar</option>
+        <option value="paypal">PayPal</option>
+        <option value="bankTransfer">Virement Bancaire</option>
+      </select>
+  
+      <div *ngIf="selectedPaymentMethod === 'creditCard'" class="payment-method-form">
+        <label for="cardNumber">Numéro de carte:</label>
+        <input id="cardNumber" [(ngModel)]="cardDetails.cardNumber" placeholder="Numéro de carte" type="text" pattern="\d{16}" maxlength="16" required />
+  
+        <label for="expiryDate">Date d'expiration:</label>
+        <div class="payment-form">
+          <label for="expiryMonth">Mois d'expiration</label>
+          <select id="expiryMonth" [(ngModel)]="cardDetails.expiryMonth" required>
+            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+          </select>
+  
+          <label for="expiryYear">Année d'expiration</label>
+          <select id="expiryYear" [(ngModel)]="cardDetails.expiryYear" required>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+  
+        <label for="cvv">CVV:</label>
+        <input id="cvv" [(ngModel)]="cardDetails.cvv" placeholder="CVV" type="password" maxlength="3" required />
+      </div>
+  
+      <div *ngIf="selectedPaymentMethod === 'edinar'" class="payment-method-form">
+        <label for="edinarCardNumber">Numéro de carte Edinar (16 chiffres sans espaces):</label>
+        <input id="edinarCardNumber" [(ngModel)]="edinarCardDetails.cardNumber" placeholder="Numéro de carte Edinar" required maxlength="16" pattern="\d{16}" />
+      </div>
+  
+      <div *ngIf="selectedPaymentMethod === 'paypal'" class="payment-method-form">
+        <label for="paypalEmail">Email PayPal (format valide requis):</label>
+        <input id="paypalEmail" [(ngModel)]="paypalDetails.email" placeholder="Email PayPal" type="email" required />
+      </div>
+  
+      <div *ngIf="selectedPaymentMethod === 'bankTransfer'" class="payment-method-form">
+        <p>Effectuez un virement à l'IBAN suivant:</p>
+        <p>{{ bankTransferDetails.iban }}</p>
+        <p><strong>BIC:</strong> {{ bankTransferDetails.bic }}</p>
+      </div>
+  
+      <button (click)="pay()">Payer</button>
+    </div>
+  
+    <div *ngIf="!selectedPack">
+      <p>Aucun pack sélectionné. Veuillez revenir à la sélection du pack.</p>
+    </div>
+  </div>
+  

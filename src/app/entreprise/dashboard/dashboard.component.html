@@ -1,0 +1,154 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Tableau de Bord Entreprise</h1>
+    <div class="header-actions">
+      <div class="notification-badge">
+        <i class="fas fa-bell"></i>
+        <span class="badge">3</span>
+      </div>
+      <div class="user-profile">
+        <img src="assets/company-logo.png" alt="Logo Entreprise">
+        <span>Nom Entreprise</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <!-- Carte Statistique 1 -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <h3>Candidatures Stages</h3>
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <div class="stat-value">124</div>
+      <div class="stat-change positive">
+        <i class="fas fa-arrow-up"></i> 12% ce mois-ci
+      </div>
+      <div class="stat-chart mini-chart">
+        <!-- Mini graphique serait implémenté avec une librairie comme Chart.js -->
+        <canvas id="internshipChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Carte Statistique 2 -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <h3>Candidatures Emplois</h3>
+        <i class="fas fa-briefcase"></i>
+      </div>
+      <div class="stat-value">89</div>
+      <div class="stat-change positive">
+        <i class="fas fa-arrow-up"></i> 8% ce mois-ci
+      </div>
+      <div class="stat-chart mini-chart">
+        <canvas id="jobChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Carte Statistique 3 -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <h3>Nouveaux Employés</h3>
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-value">15</div>
+      <div class="stat-change negative">
+        <i class="fas fa-arrow-down"></i> 5% ce trimestre
+      </div>
+      <div class="stat-chart mini-chart">
+        <canvas id="employeesChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Carte Statistique 4 -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <h3>Visiteurs Profil</h3>
+        <i class="fas fa-eye"></i>
+      </div>
+      <div class="stat-value">1,240</div>
+      <div class="stat-change positive">
+        <i class="fas fa-arrow-up"></i> 24% ce mois-ci
+      </div>
+      <div class="stat-chart mini-chart">
+        <canvas id="visitorsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Graphique Principal -->
+    <div class="analytics-card">
+      <div class="card-header">
+        <h2>Analytique des Candidatures</h2>
+        <select class="time-filter">
+          <option>7 derniers jours</option>
+          <option>30 derniers jours</option>
+          <option selected>12 derniers mois</option>
+        </select>
+      </div>
+      <div class="chart-container">
+        <canvas id="mainChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Dernières Candidatures -->
+    <div class="applications-card">
+      <div class="card-header">
+        <h2>Dernières Candidatures</h2>
+        <button (click)="goToManageApplications()" class="view-all">
+          <i class="fas fa-list"></i> Voir toutes les candidatures
+        </button>
+      </div>
+      <div class="applications-list">
+        <div class="application-item" *ngFor="let app of recentApplications">
+          <div class="app-info">
+            <img [src]="app.avatar" alt="Candidat" class="app-avatar">
+            <div>
+              <h4>{{app.name}}</h4>
+              <p>{{app.position}}</p>
+            </div>
+          </div>
+          <span class="app-date">{{app.date}}</span>
+          <span class="app-status" [ngClass]="{
+            'new': app.status === 'new',
+            'reviewed': app.status === 'reviewed'
+          }">
+            {{app.status === 'new' ? 'Nouveau' : 'En revue'}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Objectifs -->
+  <div class="targets-section">
+    <div class="target-card">
+      <h3>Objectif Recrutement 2024</h3>
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="stats.progress"></div>
+        <span>{{stats.progress}}% complété</span>
+      </div>
+      <div class="target-details">
+        <div>
+          <span>Atteint</span>
+          <strong>{{stats.target.achieved}}/{{stats.target.total}}</strong>
+        </div>
+        <div>
+          <span>Restant</span>
+          <strong>{{stats.target.total - stats.target.achieved}}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="target-card">
+      <h3>Top Compétences Recherchées</h3>
+      <div class="skills-list">
+        <div class="skill-item" *ngFor="let skill of topSkills">
+          <span>{{skill.name}}</span>
+          <div class="skill-bar" [style.width.%]="skill.percentage"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

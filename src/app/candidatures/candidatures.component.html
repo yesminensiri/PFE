@@ -1,0 +1,47 @@
+<div class="candidatures-container">
+  <h2>Mes Candidatures</h2>
+
+  <div class="table-wrapper">
+    <table *ngIf="candidatures.length > 0" class="candidatures-table">
+      <thead>
+        <tr>
+          <th>Offre</th>
+          <th>État</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidature of candidatures">
+          <td>{{ candidature.offre }}</td>
+          <td [class.pending]="candidature.state === 'en attente'"
+              [class.accepted]="candidature.state === 'accepté'"
+              [class.rejected]="candidature.state === 'refusé'"
+              [class.cancelled]="candidature.state === 'annulé'">
+            <span class="state-icon"
+                  [class.pending-icon]="candidature.state === 'en attente'"
+                  [class.accepted-icon]="candidature.state === 'accepté'"
+                  [class.rejected-icon]="candidature.state === 'refusé'"
+                  [class.cancelled-icon]="candidature.state === 'annulé'"></span>
+            {{ getStateLabel(candidature.state) }} <!-- Correction ici -->
+          </td>
+          <td>
+            <button *ngIf="candidature.state === 'refusé' || candidature.state === 'en attente'" 
+                    (click)="retirerCandidature(candidature.id)" 
+                    class="action-btn">
+              Retirer
+            </button>
+            <button *ngIf="candidature.state !== 'refusé' && candidature.state !== 'en attente'" 
+                    class="action-btn disabled" 
+                    disabled>
+              Non disponible
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="candidatures.length === 0" class="no-candidature-msg">
+    Vous n'avez aucune candidature en cours.
+  </p>
+</div>
