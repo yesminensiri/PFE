@@ -3,6 +3,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { User } from '../entities/user.model';
+import { authRequest } from './model/authRequest';
+import { AuthUser } from './model/AuthUser';
+import { AuthResponse } from './model/authresponse';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +15,7 @@ export class AuthService {
   isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
   private readonly usersKey = 'registeredUsers';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.initializeStorage();
     this.loadCurrentUser();
   }
@@ -103,5 +107,28 @@ export class AuthService {
   private loadCurrentUser(): void {
     const user = localStorage.getItem('currentUser');
     if (user) this.currentUserSubject.next(JSON.parse(user));
+  }
+
+
+  logIn(authBody: authRequest): Observable<{ user: AuthUser, token: string }>{
+
+    return this.httpClient.post<AuthResponse>("http://localhost:8080/v1/auth/signin", authBody).
+    pipe(
+      map(
+        response => ({ 
+          
+          user: this.parseToken(response.token),
+           token: response.token })));
+  }
+  
+   private parseToken(token: string): AuthUser {
+    localStorage.setItem('token',token)
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return { id: decodedToken.sub,
+      email: '' , roles: decodedToken.ROLES };
+  }
+    parseRoles(token: any): string[]  {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.ROLES;
   }
 }

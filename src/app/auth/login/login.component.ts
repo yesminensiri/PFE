@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { authRequest } from '../model/authRequest';
 
 @Component({
   standalone:false,
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   password: string = '';
   errorMessage: string = '';
   returnUrl: string = '/';
+  authBody: authRequest = { email: '', password: '' };
 
   constructor(
     private authService: AuthService,
@@ -67,5 +69,20 @@ export class LoginComponent implements OnInit {
     };
   
     this.router.navigate([routes[user.role as keyof typeof routes]]);
+  }
+  onLogin() {
+    this.authService.logIn(this.authBody).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+        // Save token to localStorage/sessionStorage
+        localStorage.setItem('token', response.token);
+        // Redirect user (example)
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+        // Handle login error, e.g. show message to user
+      }
+    });
   }
 }
